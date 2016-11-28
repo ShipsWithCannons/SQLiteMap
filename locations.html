@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Employee location overview</title>
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer_compiled.js"></script>
+    <script src="locations.js"></script>
+    <script>
+      function initialize() {
+        // 51.0, 4.0 is roughly the center of The Netherlands
+        const Lat = 51.0;
+        const Lng = 4.0;
+        var mapOptions = {
+          // 7 keeps the country roughly full-screen, adjust if it doesn't
+          zoom: 7,
+          center: new google.maps.LatLng(Lat,Lng),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+        i = 0;
+        var markers = [];
+        for ( pos in locations ) {
+            i = i + 1;
+            var row = locations[pos];
+		    window.console && console.log(row);
+            console.log(row)
+            var currentCoord = new google.maps.LatLng(row[1], row[2]);
+            var marker = new google.maps.Marker({
+                position: currentCoord,
+                map: map,
+                title: row[0]
+            });
+            markers.push(marker);
+        }
+      }
+    </script>
+  </head>
+  <body onload="initialize()">
+<div id="map_canvas" style="height: 100%"></div>
+</body>
+</html>
